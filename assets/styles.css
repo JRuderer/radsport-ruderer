@@ -195,3 +195,21 @@ body { padding-top: 0 !important; }
 
 /* (optional) also tighten the tagline if needed */
 .tagline{ margin: 6px 0 8px !important; }
+/* Responsive logo sizing (small on phones, big on desktop) */
+:root{
+  /* min, preferred (as vw), max */
+  --logo-h: clamp(48px, 14vw, 150px);   /* tune middle % or the caps */
+  --header-pad: 4px;
+}
+
+.header-centered{
+  height: calc(var(--logo-h) + 2*var(--header-pad));
+  padding-block: var(--header-pad);
+}
+
+.logo{
+  height: var(--logo-h);
+  width: auto;
+  max-width: 90vw;   /* prevents overflow on very narrow phones */
+  display: block;
+}
