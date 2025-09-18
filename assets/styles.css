@@ -1,0 +1,197 @@
+/* ---------- Base */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+:root{
+  /* Adjust header height to size the logo */
+  --header-height: 120px;
+  --container-max: 1200px;
+}
+
+/* Fancy, intense multi-layer gradient background */
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", sans-serif;
+  color:#0f172a;
+  line-height:1.55;
+  /* Layered gradients for depth and glow */
+  background:
+    radial-gradient(1200px 600px at 10% 0%, rgba(255,180,200,0.25), transparent 60%),
+    radial-gradient(900px 600px at 90% 20%, rgba(120,180,255,0.22), transparent 65%),
+    radial-gradient(700px 500px at 30% 90%, rgba(255,210,150,0.22), transparent 60%),
+    linear-gradient(120deg, #e9f2ff 0%, #e6ecff 30%, #eae4ff 55%, #ffe6ef 80%, #f4fbff 100%);
+  /* keep content below fixed header */
+  padding-top: calc(var(--header-height) + 12px);
+}
+
+.container{
+  width: min(100%, var(--container-max));
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---------- Fixed Logo Header */
+.site-header{
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.85);       /* feel free to change to 'transparent' */
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid rgba(226,232,240,.8);
+}
+
+.header-centered{
+  display: grid;
+  place-items: center;
+  height: var(--header-height);
+  padding: 6px 0;
+}
+
+.brand{ margin:0; }
+.logo{
+  height: calc(var(--header-height) - 22px);
+  width: auto;
+  display:block;
+}
+
+/* ---------- Intro */
+.tagline{
+  margin: 10px 0 10px;
+  color:#334155;
+  font-size: clamp(18px, 2.2vw, 20px);
+  font-weight: 600;
+}
+
+/* ---------- Carousel */
+.carousel{ position: relative; margin: 8px 0 28px; user-select:none; }
+.carousel-viewport{
+  width:100%;
+  aspect-ratio:16/9;
+  overflow:hidden;                    /* no peeking */
+  border-radius:7px;
+  background:#f1f5f9;
+  box-shadow:
+    0 14px 50px rgba(2,6,23,0.18),
+    0 4px 18px rgba(2,6,23,0.08);
+}
+.carousel-track{
+  display:flex;
+  height:100%;
+  width:100%;
+  gap:0;
+  transform: translate3d(0,0,0);
+  transition: transform 500ms ease;
+  will-change: transform;
+  margin:0; padding:0; list-style:none;
+}
+.slide{ flex:0 0 100%; height:100%; }
+.slide img{
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+}
+
+/* ---------- Controls */
+.control{
+  --size:44px;
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:var(--size); height:var(--size);
+  border:0; border-radius:999px;
+  background: rgba(15,23,42,.45); color:#fff;
+  font-size:20px; display:grid; place-items:center; cursor:pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+}
+.control:hover{ background: rgba(15,23,42,.6); }
+.prev{ left:10px; }
+.next{ right:10px; }
+
+/* ---------- Dots */
+.dots{
+  position:absolute; bottom:10px; left:0; width:100%;
+  display:flex; gap:8px; justify-content:center;
+}
+.dots button{
+  width:9px; height:9px; border-radius:999px; border:0;
+  background: rgba(15,23,42,.35); cursor:pointer;
+}
+.dots button[aria-current="true"]{
+  background: rgba(15,23,42,.95); transform: scale(1.1);
+}
+
+/* ---------- Footer */
+.site-footer{ border-top:1px solid #e2e8f0; padding:22px 0; margin-top:24px; }
+.footer-inner{ display:flex; justify-content:center; color:#64748b; }
+.footer-inner a{ color:#0ea5e9; text-decoration:none; }
+.footer-inner a:hover{ text-decoration:underline; }
+
+/* --- Make header rigid (not fixed or sticky) --- */
+.site-header {
+  position: static !important;   /* resets fixed/sticky */
+  top: auto; left: auto; right: auto;
+  z-index: auto;
+  background: transparent;       /* no frosted band */
+  border-bottom: 1px solid rgba(226,232,240,.0); /* or remove if you like a line */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none;
+}
+
+/* Regular spacing for the header block */
+.header-centered {
+  display: grid;
+  place-items: center;
+  padding: 10px 0;               /* adjust if you want tighter/looser */
+  height: auto;                  /* no fixed height */
+}
+
+.logo {
+  height: clamp(90px, 10vw, 170px); 
+  width: auto;
+  display: block;
+}
+
+/* Remove the offset that was added for a fixed header */
+body { padding-top: 0 !important; }
+
+/* Arrows = plain chevrons, no circle */
+.control{
+  --hit: 44px;                 /* invisible hit area size */
+  background: none !important; /* no circle */
+  border: 0;
+  border-radius: 0;
+  width: auto; height: auto;
+  padding: 0 8px;
+  font-size: 44px;             /* bigger chevrons */
+  color: rgba(255,255,255,.95);
+  text-shadow: 0 2px 10px rgba(0,0,0,.35);
+  box-shadow: none;
+}
+.control:hover{ transform: scale(1.06); }
+.control::after{
+  /* invisible hit target so it's still easy to click */
+  content:"";
+  position:absolute; inset: calc(-1 * (var(--hit) / 2));
+}
+/* Hide chevrons for the ultra-minimal mode */
+.control{ display:none !important; }
+.carousel-viewport{ cursor: pointer; }
+
+/* --- tighter logo header spacing --- */
+:root{
+  --logo-h: 100px;          /* change this to resize the logo */
+  --header-pad: 10px;        /* vertical padding above/below the logo */
+  --gap-below-header: 0px;  /* space before the tagline/gallery */
+}
+
+.site-header{ padding: 0 !important; }      /* no extra padding on the header */
+.header-centered{
+  height: calc(var(--logo-h) + 2*var(--header-pad));
+  padding-block: var(--header-pad);
+  place-items: center;
+}
+.brand{ margin: 0; }
+.logo{ height: var(--logo-h); width: auto; display: block; }
+
+/* shrink the gap after the header */
+.site-header + .container{ margin-top: var(--gap-below-header); }
+
+/* (optional) also tighten the tagline if needed */
+.tagline{ margin: 6px 0 8px !important; }
