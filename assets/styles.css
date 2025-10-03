@@ -213,3 +213,53 @@ body { padding-top: 0 !important; }
   max-width: 90vw;   /* prevents overflow on very narrow phones */
   display: block;
 }
+/* --- About card --- */
+.about {
+  margin: 12px 0 24px;
+  padding: 16px 18px;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(2,6,23,.06);
+}
+.about h2 {
+  margin: 0 0 6px;
+  font-size: clamp(18px, 2vw, 20px);
+}
+.about p {
+  margin: 0 0 8px;
+  color: #334155;
+}
+.about-list {
+  margin: 0;
+  padding-left: 18px;
+  color: #475569;
+}
+.about-list li {
+  margin: 2px 0;
+}
+.about {
+  margin: 12px 0 24px;
+  padding: 16px 18px;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(2,6,23,.06);
+}
+
+.about h2 {
+  margin: 0;
+  font-size: clamp(18px, 2vw, 20px);
+  color: #0f172a;
+  user-select: none;
+}
+
+.about h2:hover {
+  color: #2563eb; /* beim drübergehen blau */
+}
+
+.about-list {
+  margin: 0;
+  padding-left: 18px;
+  color: #475569;
+}

@@ -141,3 +141,15 @@ viewport.addEventListener('click', (e) => {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 })();
+function toggleAbout() {
+  const content = document.getElementById("about-content");
+  const title = document.getElementById("about-title");
+
+  if (content.style.display === "none") {
+    content.style.display = "block";
+    title.textContent = "▼ Was ich mache";  // Pfeil nach unten
+  } else {
+    content.style.display = "none";
+    title.textContent = "▶ Was ich mache";  // Pfeil nach rechts
+  }
+}
