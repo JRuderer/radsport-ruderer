@@ -9,19 +9,40 @@ html, body { margin: 0; padding: 0; }
 }
 
 /* Fancy, intense multi-layer gradient background */
-body{
+body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", sans-serif;
-  color:#0f172a;
-  line-height:1.55;
-  /* Layered gradients for depth and glow */
-  background:
-    radial-gradient(1200px 600px at 10% 0%, rgba(255,180,200,0.25), transparent 60%),
-    radial-gradient(900px 600px at 90% 20%, rgba(120,180,255,0.22), transparent 65%),
-    radial-gradient(700px 500px at 30% 90%, rgba(255,210,150,0.22), transparent 60%),
-    linear-gradient(120deg, #e9f2ff 0%, #e6ecff 30%, #eae4ff 55%, #ffe6ef 80%, #f4fbff 100%);
-  /* keep content below fixed header */
+  color: #1e293b;
+  line-height: 1.55;
+
+    /* Endfarbe als Basis, damit sie garantiert bis ganz unten reicht */
+    background-color: #1e293b;
+
+    /* Verlaufsebenen oben drauf – diagonal + radiale Glows.
+       Der letzte (untenstehende) Verlauf blendet nach unten in Transparenz aus,
+       so scheint die Basisfarbe durch (keine „Kante“ bei Laptop-Breite). */
+    background-image:
+      /* dezenter „Apple“-Schimmer */
+      linear-gradient(135deg,
+        rgba(255,255,255,0.06) 0%,
+        rgba(148,163,184,0.06) 40%,
+        rgba(30,41,59,0.06) 100%
+      ),
+      /* radiale Highlights */
+      radial-gradient(1200px 600px at 10% 0%, rgba(160,180,200,0.08), transparent 90%),
+      radial-gradient(900px 600px at 90% 20%, rgba(120,150,180,0.06), transparent 90%),
+      /* Grundverlauf (diagonal), unten transparent → Basisfarbe füllt den Rest */
+      linear-gradient(120deg,
+        #f1f5f9 0%,
+        #cbd5e1 20%,
+        #94a3b8 50%,
+        #475569 75%,
+        rgba(30,41,59,0) 100%
+      );
+  
+
   padding-top: calc(var(--header-height) + 12px);
 }
+
 
 .container{
   width: min(100%, var(--container-max));
