@@ -241,18 +241,25 @@ body { padding-top: 0 !important; }
 .about {
   margin: 12px 0 24px;
   padding: 16px 18px;
-  background: rgba(255,255,255,0.8);
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(2,6,23,.06);
+  background: rgba(255, 255, 255, 0.2); /* halbtransparent */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+
+  /* Glas-Effekt */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari Unterstützung */
+
+  /* leicht eleganter Schatten */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.about h2 {
-  margin: 0;
-  font-size: clamp(18px, 2vw, 20px);
-  color: #0f172a;
-  user-select: none;
+
+.about h2, 
+.about p, 
+.about-list {
+  color: ##475569; /* sehr helles Grau/Weiß */
 }
+
 
 .about h2:hover {
   color: #2563eb; /* beim drübergehen blau */
@@ -262,4 +269,22 @@ body { padding-top: 0 !important; }
   margin: 0;
   padding-left: 18px;
   color: #475569;
+}
+html, body {
+  height: 100%;              /* ganze Höhe */
+  margin: 0;
+}
+
+.page-wrapper {
+  min-height: 100%;          /* Wrapper soll mind. 100% hoch sein */
+  display: flex;
+  flex-direction: column;    /* alles untereinander */
+}
+
+.footer {
+  margin-top: auto;          /* Footer nach unten drücken */
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
 }

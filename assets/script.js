@@ -147,9 +147,9 @@ function toggleAbout() {
 
   if (content.style.display === "none") {
     content.style.display = "block";
-    title.textContent = "▼ Was ich mache";  // Pfeil nach unten
+    title.textContent = "▼ Über mich";  // Pfeil nach unten
   } else {
     content.style.display = "none";
-    title.textContent = "▶ Was ich mache";  // Pfeil nach rechts
+    title.textContent = "▶ Über mich";  // Pfeil nach rechts
   }
 }
