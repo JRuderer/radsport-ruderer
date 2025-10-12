@@ -264,3 +264,25 @@ button[type="submit"]:hover{ filter: brightness(1.05); }
     width: 32px; height: 32px; font-size: 16px;
   }
 }
+/* ================= Mobile-Fixes: Home-Logo oben links kleiner ================= */
+@media (max-width: 600px){
+
+  /* kompaktere Header-Höhe auf Phones */
+  :root{ --header-h: 56px; }
+
+  /* Unterseiten-Logo etwas kleiner */
+  .brand img.logo{
+    height: 44px;
+  }
+
+  /* Home-Logo (weiß) kleiner, bleibt links oben */
+  body.home .brand img.logo{
+    height: 48px;          /* ggf. 46/50 testen nach Geschmack */
+    margin: 0;             /* Sicherheits-Reset gegen zentrierende Margins */
+  }
+
+  /* Menü-Button proportional kleiner */
+  .menu-button{
+    width: 32px; height: 32px; font-size: 16px;
+  }
+}
