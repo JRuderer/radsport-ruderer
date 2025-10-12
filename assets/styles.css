@@ -347,3 +347,12 @@ button[type="submit"]:hover{ filter: brightness(1.05); }
   text-decoration: none;
   pointer-events: none;          /* nicht klickbar */
 }
+
+/* Kontakt: Status unter dem Button */
+.form-status{
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.form-status.ok{ color: #16a34a; }   /* grün */
+.form-status.err{ color: #b91c1c; }   /* rot */

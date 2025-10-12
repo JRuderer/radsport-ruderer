@@ -31,19 +31,25 @@
     <h1>Kontakt</h1>
     <p>Schreib mir gern eine Nachricht – ich melde mich schnellstmöglich zurück.</p>
 
-    <form id="contact-form">
+    <form id="contact-form" action="https://formspree.io/f/mzzjkboz" method="POST" novalidate>
       <label for="name">Name</label>
-      <input id="name" name="name" type="text" autocomplete="name" required>
-
+      <input id="name" name="name" autocomplete="name" required>
+    
       <label for="email">E-Mail</label>
       <input id="email" name="email" type="email" autocomplete="email" required>
-
+    
       <label for="message">Nachricht</label>
-      <textarea id="message" name="message" required></textarea>
-
+      <textarea id="message" name="message" rows="6" required></textarea>
+    
+      <!-- Meta/Fallback -->
+      <input type="hidden" name="_subject" value="Kontakt – Radsport Ruderer">
+      <input type="text" name="_gotcha" style="display:none"> <!-- Honeypot gegen Spam -->
+    
       <button type="submit">Nachricht senden</button>
-      <p style="color:#64748b; font-size:14px; margin-top:8px;">Beim Senden öffnet sich dein E-Mail-Programm mit einer voradressierten E-Mail an mich.</p>
+      <!-- Bestätigungs-/Fehlermeldung -->
+      <p id="form-status" class="form-status" aria-live="polite" hidden></p>
     </form>
+    
   </main>
 
   <footer class="site-footer">

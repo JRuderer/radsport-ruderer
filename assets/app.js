@@ -20,6 +20,45 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') body.classList.remove('menu-open');
 });
 
+// Kontaktformular (AJAX)
+const form = document.getElementById('contact-form');
+if (form){
+  const statusEl = document.getElementById('form-status');
+  const showStatus = (msg, ok = true) => {
+    statusEl.hidden = false;
+    statusEl.textContent = msg;
+    statusEl.classList.toggle('ok', ok);
+    statusEl.classList.toggle('err', !ok);
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.reset();
+        showStatus('Danke für deine Nachricht – ich melde mich in Kürze.', true);
+      } else {
+        let msg = 'Leider gab es ein Problem beim Senden. Bitte versuche es später erneut oder schreib mir direkt an juliusruderer@gmail.com.';
+        try {
+          const json = await res.json();
+          if (json && json.errors && json.errors[0]?.message) msg = json.errors[0].message;
+        } catch {}
+        showStatus(msg, false);
+      }
+    } catch {
+      showStatus('Netzwerkfehler – bitte später erneut versuchen oder direkt mailen: juliusruderer@gmail.com.', false);
+    }
+  });
+}
+
 /* --- Minimal-Slider (Galerie) --- */
 (function initCarousel(){
   const track = document.getElementById('track');
