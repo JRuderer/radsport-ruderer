@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kontakt – Radsport Ruderer</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <a class="brand" href="index.html" aria-label="Startseite">
+      <img src="images/logo.svg" alt="Radsport Ruderer" class="logo">
+    </a>
+    <button class="menu-button" aria-label="Menü öffnen">⋯</button>
+  </header>
+
+  <aside class="drawer" aria-label="Hauptmenü">
+    <div class="drawer-header">Menü</div>
+    <nav class="drawer-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">Über mich</a>
+      <a href="gallery.html">Galerie</a>
+      <a href="contact.html">Kontakt</a>
+      <small><a href="impressum.html">Impressum & Datenschutz</a></small>
+    </nav>
+  </aside>
+  <button class="scrim" aria-hidden="true" tabindex="-1"></button>
+
+  <main class="container page">
+    <h1>Kontakt</h1>
+    <p>Schreib mir gern eine Nachricht – ich melde mich schnellstmöglich zurück.</p>
+
+    <form id="contact-form">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" autocomplete="name" required>
+
+      <label for="email">E-Mail</label>
+      <input id="email" name="email" type="email" autocomplete="email" required>
+
+      <label for="message">Nachricht</label>
+      <textarea id="message" name="message" required></textarea>
+
+      <button type="submit">Nachricht senden</button>
+      <p style="color:#64748b; font-size:14px; margin-top:8px;">Beim Senden wird dein E-Mail-Programm mit einer voradressierten E-Mail an <a href="mailto:juliusruderer@gmail.com">juliusruderer@gmail.com</a> geöffnet.</p>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> Radsport Ruderer · <a href="impressum.html">Impressum & Datenschutz</a></small>
+    </div>
+  </footer>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
