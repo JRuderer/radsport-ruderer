@@ -7,13 +7,15 @@
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
+  <!-- Einheitlicher, fixer Seiten-Header (wie auf allen Unterseiten) -->
   <header class="site-header" role="banner">
     <a class="brand" href="index.html" aria-label="Startseite">
       <img src="images/logo.svg" alt="Radsport Ruderer" class="logo">
     </a>
-    <button class="menu-button" aria-label="Menü öffnen">⋯</button>
+    <button class="menu-button" aria-label="Menü öffnen" title="Menü öffnen">⋮</button>
   </header>
 
+  <!-- Offcanvas-Menü -->
   <aside class="drawer" aria-label="Hauptmenü">
     <div class="drawer-header">Menü</div>
     <nav class="drawer-nav">
@@ -21,24 +23,14 @@
       <a href="about.html">Über mich</a>
       <a href="gallery.html">Galerie</a>
       <a href="contact.html">Kontakt</a>
-      <small><a href="impressum.html">Impressum & Datenschutz</a></small>
+      <small><a href="impressum.html" aria-current="page">Impressum & Datenschutz</a></small>
     </nav>
   </aside>
   <button class="scrim" aria-hidden="true" tabindex="-1"></button>
 
-  <main class="container page">
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <h1 class="brand"><a href="index.html" class="brand-link">Radsport Ruderer</a></h1>
-      <nav class="nav">
-        <a href="index.html" class="nav-link">Zurück zur Galerie</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container legal">
-    <h2>Impressum</h2>
+  <!-- Inhalt -->
+  <main class="container page legal">
+    <h1>Impressum</h1>
     <p><strong>Angaben gemäß § 5 TMG</strong></p>
     <p>
       Julius Ruderer<br>
@@ -50,12 +42,8 @@
       Telefon: +49 177 9310905<br>
       E-Mail: <a href="mailto:juliusruderer@gmail.com">juliusruderer@gmail.com</a>
     </p>
-    <p>
-      Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Julius Ruderer, Anschrift wie oben.
-    </p>
-    <p>
-      Umsatzsteuer-ID: nicht vorhanden (Privatprojekt, kein Online-Shop).
-    </p>
+    <p>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Julius Ruderer, Anschrift wie oben.</p>
+    <p>Umsatzsteuer-ID: nicht vorhanden (Privatprojekt, kein Online-Shop).</p>
 
     <h2>Haftungsausschluss</h2>
     <p>Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann ich jedoch keine Gewähr übernehmen. Als Diensteanbieter bin ich gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
@@ -66,24 +54,16 @@
     <h2>Datenschutzerklärung (Kurzfassung)</h2>
     <p>Diese Website setzt keine Tracking-Cookies ein und verwendet keine externen Analytics-Dienste. Beim Aufruf der Seiten werden serverseitig technisch notwendige Daten (z.&nbsp;B. IP-Adresse) verarbeitet, die zur Bereitstellung der Website erforderlich sind. Wenn Sie mich per E-Mail kontaktieren, werden Ihre Angaben zur Bearbeitung der Anfrage verarbeitet. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer personenbezogenen Daten.</p>
 
-    <p><a href="index.html">Zurück zur Startseite</a></p>
+    <p><a href="index.html">Zur Startseite</a></p>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <small>© <span id="year"></span> Radsport Ruderer · <a href="impressum.html">Impressum &amp; Datenschutz</a></small>
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-
-  </main>
-
+  <!-- EIN Footer, sauber -->
   <footer class="site-footer">
     <div class="container">
-      <small>© <span id="year"></span> Radsport Ruderer · <a href="impressum.html">Impressum & Datenschutz</a></small>
+      <small>© <span id="year"></span> Radsport Ruderer · 
+        <!-- Auf dieser Seite kein Selbst-Link; neutraler Text -->
+        <span class="current">Impressum & Datenschutz</span>
+      </small>
     </div>
   </footer>
 

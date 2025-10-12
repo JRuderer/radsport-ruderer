@@ -60,14 +60,38 @@ body.home .brand img.logo{
 }
 
 /* Menü-Button rechts (kleine 3 Punkte) */
+/* Menü-Button: nur drei vertikale Punkte, kein Kreis */
 .menu-button{
-  appearance: none; border:0; background: rgba(255,255,255,.85);
-  height: 32px; width: 32px; border-radius: 999px;
-  display:grid; place-items:center; cursor:pointer;
-  font-size: 18px; line-height: 1;
-  box-shadow: 0 4px 14px rgba(2,6,23,.18);
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 8px 10px;         /* größerer Klickbereich */
+  line-height: 1;
+  font-size: 38px;           /* Punktgröße */
+  color: var(--text);        /* Standard: schwarz (Unterseiten) */
+  cursor: pointer;
+  min-width: 44px;           /* Accessibility Hit-Target */
+  min-height: 44px;
+  box-shadow: none;          /* Kreis-/Schatten entfernen */
+  border-radius: 0;
 }
-.menu-button:hover{ background:#fff; }
+.menu-button:hover{ filter: none; background: transparent; }
+.menu-button:focus-visible{
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 8px;        /* nur für schönen Fokusrahmen */
+}
+
+/* Home: weiße Punkte auf Bild */
+body.home .menu-button{
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,.35); /* Kontrast auf hellem/uneinheitlichem BG */
+}
+
+/* Mobile feinjustieren */
+@media (max-width: 600px){
+  .menu-button{ font-size: 24px; padding: 8px; }
+}
 
 /* Auf Unterseiten: Header weiß ohne Linie */
 body:not(.home) .site-header{
@@ -285,4 +309,17 @@ button[type="submit"]:hover{ filter: brightness(1.05); }
   .menu-button{
     width: 32px; height: 32px; font-size: 16px;
   }
+}
+/* ========== Rechtstexte / Legal ========== */
+.legal h1{ font-size: clamp(24px, 3vw, 34px); margin: 0 0 10px; }
+.legal h2{
+  color: var(--text);            /* sicher nicht blau */
+  font-size: clamp(18px, 2.2vw, 22px);
+  margin: 22px 0 8px;
+}
+.legal p{ margin: 0 0 12px; }
+.site-footer .current{
+  color: var(--muted);
+  text-decoration: none;
+  pointer-events: none;          /* nicht klickbar */
 }
