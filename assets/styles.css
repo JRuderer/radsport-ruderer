@@ -2,7 +2,9 @@
 
 /* ========== Base / Reset ========== */
 * { box-sizing: border-box; }
-html, body { margin:0; padding:0; }
+html, body { margin:0; padding:0; overflow-x: hidden; }  /* verhindert horizontales Aufblitzen */
+
+
 img { max-width: 100%; height: auto; display: block; }
 
 :root{
@@ -109,8 +111,8 @@ body:not(.home) main{ padding-top: calc(var(--header-h) + 18px); }
   top:0; right:0; bottom:0;
   width: min(var(--panel-w), 100vw);
   max-width: var(--panel-w-mobile);
-  background:#fff; border-left: var(--border);
-  transform: translateX(100%);
+  background:#ffffff; border-left: none;     /* keine helle Kante am Panelrand */
+  transform: translate3d(100%,0,0);       /* Subpixel-Rundungsfehler vermeiden */
   transition: transform 300ms ease;
   box-shadow: var(--shadow);
   z-index: 1200;
@@ -124,16 +126,32 @@ body:not(.home) main{ padding-top: calc(var(--header-h) + 18px); }
 }
 .drawer-nav a:hover{ background:#f8fafc; }
 .drawer small{ color: var(--muted); padding: 0 14px; }
+body.menu-open .drawer{ transform: translate3d(0,0,0); }
 
-body.menu-open .drawer{ transform: translateX(0); }
 
-/* Klickbereich außerhalb (transparent, bedeckt NICHT das Bild) */
+/* Vollflächen-Scrim: nie Fokus-/Aktiv-Rahmen, keine Border */
 .scrim{
-  position: fixed; inset: 0;
-  background: transparent;   /* kein Verdunkeln */
-  opacity: 0; pointer-events: none; z-index: 1100;
+  position: fixed;
+  inset: 0;
+  background: transparent;      /* wenn du abdunkeln willst: rgba(0,0,0,.25) */
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: none;         /* standard: inaktiv */
 }
-body.menu-open .scrim{ opacity:1; pointer-events:auto; }
+
+body.menu-open .scrim{
+  pointer-events: auto;         /* nur aktiv, wenn Menü offen */
+}
+
+/* Falls der Browser doch einen Focus zeichnet – sicherheitshalber neutralisieren */
+.scrim:focus,
+.scrim:focus-visible,
+.scrim:active{
+  outline: none !important;
+  box-shadow: none !important;
+}
 
 /* ========== Layout Container ========== */
 /* Sticky Footer auf allen Unterseiten (Home hat eigenes, fixes Footer-Label) */
@@ -159,13 +177,19 @@ main.page > *:last-child { margin-bottom: 0; }
 /* ========== Home (Vollbild-Hintergrund) ========== */
 body.home{
   color:#0b1220;
+  background:#000; /* falls 1px Spalt entsteht, sieht man schwarz statt weiß */
 }
 body.home .hero{
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: -2px;                 /* 2px Überstand maskiert Subpixel-Nähte */
   background-image: var(--home-bg);
-  background-size: cover; background-position: center;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;      /* eigenes Compositing-Layer */
+  transform: translateZ(0);    /* WebKit-GPU Kick */
+  backface-visibility: hidden; /* weitere Safari-Hairline-Absicherung */
 }
-body.home main{ padding-top: 0; } /* keine zusätzliche Lücke */
+
 
 /* Kleines Footer-Branding unten links (optional) */
 .home-footer{
