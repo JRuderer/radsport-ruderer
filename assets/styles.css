@@ -34,7 +34,11 @@ body{
   inset: 0 0 auto 0;
   height: var(--header-h);
   display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 16px;
+  /* iPhone-Notch + allgemein sichere Abstände */
+  padding: max(10px, env(safe-area-inset-top))
+           max(16px, env(safe-area-inset-right))
+           10px
+           max(16px, env(safe-area-inset-left));
   z-index: 1000;
   background: transparent;  /* Home: transparent über Bild */
 }
@@ -151,6 +155,14 @@ h1{ font-size: clamp(24px, 3vw, 36px); margin: 0 0 12px; }
 p{ margin: 0 0 14px; }
 a{ color: var(--link); }
 a:hover{ text-decoration: underline; }
+/* Untertitel/Lead-Zeile unter H1 */
+.lede{
+  color: var(--muted);
+  font-size: clamp(14px, 1.6vw, 18px);
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
 
 /* ========== Galerie (Slideshow) – übernimmt deinen bisherigen Stil ========== */
 .carousel{ position: relative; margin: 6px 0 24px; user-select:none; }
@@ -229,4 +241,26 @@ button[type="submit"]:hover{ filter: brightness(1.05); }
 /* Responsiv */
 @media (min-width: 900px){
   .drawer{ width: var(--panel-w); max-width: var(--panel-w); }
+}
+
+/* ================= Mobile (bis 600px) ================= */
+@media (max-width: 600px){
+
+  /* Header etwas kompakter */
+  :root{ --header-h: 56px; }
+
+  /* Logo-Größen: Unterseiten (schwarz) etwas kleiner */
+  .brand img.logo{
+    height: 44px;
+  }
+
+  /* Home: weißes Logo, aber nicht zu groß */
+  .home .brand img.logo{
+    height: 48px;  /* vorher 84px -> wirkt sonst mittig/übergroß */
+  }
+
+  /* Menü-Button minimal kompakter, damit die Proportionen stimmen */
+  .menu-button{
+    width: 32px; height: 32px; font-size: 16px;
+  }
 }
