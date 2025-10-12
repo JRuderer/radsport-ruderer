@@ -331,7 +331,7 @@ button[type="submit"]:hover{ filter: brightness(1.05); }
 
   /* Menü-Button proportional kleiner */
   .menu-button{
-    width: 32px; height: 32px; font-size: 16px;
+    width: 42px; height: 42px; font-size: 26px;
   }
 }
 /* ========== Rechtstexte / Legal ========== */
