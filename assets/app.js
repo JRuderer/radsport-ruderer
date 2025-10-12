@@ -113,6 +113,85 @@ if (form){
   // Klickzonen (linke/rechte Hälfte)
   const tapLeft  = document.getElementById('tap-left');
   const tapRight = document.getElementById('tap-right');
+  // --- Swipe (Pointer Events: touch + mouse) ---
+  const viewport = document.getElementById('viewport');
+  let startX = 0;
+  let deltaX = 0;
+  let dragging = false;
+  const SWIPE_THRESHOLD_PX = 40;
+
+  const baseTranslateFor = (i) => -i * 100; // in %
+
+  const onPointerDown = (e) => {
+    dragging = true;
+    // Autoplay pausieren beim Drag
+    clearInterval(timer);
+
+    startX = e.clientX ?? (e.touches && e.touches[0]?.clientX) ?? 0;
+    deltaX = 0;
+
+    // Während Drag: keine Transition, nur Verschiebung
+    track.style.transition = 'none';
+
+    // Pointer Capture (sauber bei Mouse + Touch)
+    if (viewport.setPointerCapture && e.pointerId !== undefined) {
+      try { viewport.setPointerCapture(e.pointerId); } catch {}
+    }
+  };
+
+  const onPointerMove = (e) => {
+    if (!dragging) return;
+    const x = e.clientX ?? (e.touches && e.touches[0]?.clientX) ?? startX;
+    deltaX = x - startX;
+
+    // Horizontalen Drag live darstellen (in % der Viewportbreite)
+    const dxPercent = (deltaX / viewport.clientWidth) * 100;
+    track.style.transform = `translate3d(${baseTranslateFor(index) + dxPercent}%, 0, 0)`;
+
+    // Sobald klar horizontal: Scrollen unterbinden
+    if (Math.abs(deltaX) > 10) {
+      if (e.cancelable) e.preventDefault();
+    }
+  };
+
+  const onPointerUp = () => {
+    if (!dragging) return;
+    dragging = false;
+
+    // Entscheidung: weiter, zurück, oder zurückschnappen
+    if (Math.abs(deltaX) > SWIPE_THRESHOLD_PX) {
+      if (deltaX < 0) {
+        // nach links gewischt -> nächstes Bild
+        index++;
+      } else {
+        // nach rechts gewischt -> vorheriges Bild
+        index--;
+      }
+    }
+    // sanft zur Zielposition animieren
+    track.style.transition = `transform ${DURATION}ms ease`;
+    track.style.transform  = `translate3d(${baseTranslateFor(index)}%, 0, 0)`;
+
+    // Autoplay neu starten
+    resetTimer();
+  };
+
+  // Pointer Events bevorzugen (fällt bei alten Browsern auf Touch/Mouse zurück)
+  if (window.PointerEvent) {
+    viewport.addEventListener('pointerdown', onPointerDown, { passive: true });
+    viewport.addEventListener('pointermove', onPointerMove, { passive: false });
+    viewport.addEventListener('pointerup', onPointerUp, { passive: true });
+    viewport.addEventListener('pointercancel', onPointerUp, { passive: true });
+    viewport.addEventListener('pointerleave', onPointerUp, { passive: true });
+  } else {
+    // Fallback: Touch + Mouse
+    viewport.addEventListener('touchstart', onPointerDown, { passive: true });
+    viewport.addEventListener('touchmove', onPointerMove, { passive: false });
+    viewport.addEventListener('touchend', onPointerUp, { passive: true });
+    viewport.addEventListener('mousedown', (e) => { onPointerDown(e); });
+    window.addEventListener('mousemove', onPointerMove, { passive: false });
+    window.addEventListener('mouseup', onPointerUp, { passive: true });
+  }
 
   const resetTimer = () => {
     clearInterval(timer);

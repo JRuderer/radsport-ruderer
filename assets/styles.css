@@ -221,6 +221,7 @@ a:hover{ text-decoration: underline; }
 /* Ergänzung: Viewport relativ für die Zonen positionieren */
 .carousel-viewport{
   position: relative; /* NEU */
+  touch-action: pan-y; /* Erlaubt vertikales Scrollen, reserviert horizontal fürs Swipe */
 }
 
 /* Unsichtbare, halbseitige Klickflächen */
