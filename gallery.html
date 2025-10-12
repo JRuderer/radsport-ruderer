@@ -29,6 +29,7 @@
   <main class="container page">
     <h1>Galerie</h1>
 
+    <!-- Minimalistisches, klickbares Vollflächen-Slider-Viewport -->
     <section class="carousel" role="region" aria-label="Restaurierte Rennräder">
       <div class="carousel-viewport" id="viewport">
         <ul class="carousel-track" id="track" aria-live="polite">
@@ -40,11 +41,11 @@
           <li class="slide"><img src="images/bike6.jpg" alt="Restauriertes Rennrad 6" loading="lazy" decoding="async"></li>
           <li class="slide"><img src="images/bike7.jpg" alt="Restauriertes Rennrad 7" loading="lazy" decoding="async"></li>
         </ul>
-      </div>
 
-      <button class="control prev" id="prev" aria-label="Vorheriges Bild" title="Zurück">&#10094;</button>
-      <button class="control next" id="next" aria-label="Nächstes Bild" title="Weiter">&#10095;</button>
-      <div class="dots" id="dots" aria-label="Bild wählen"></div>
+        <!-- Unsichtbare Klickzonen: linke/rechte Hälfte -->
+        <button id="tap-left"  class="tapzone left"  aria-label="Vorheriges Bild"></button>
+        <button id="tap-right" class="tapzone right" aria-label="Nächstes Bild"></button>
+      </div>
     </section>
   </main>
 

@@ -1,77 +1,100 @@
-// Jahr im Footer
-document.addEventListener('DOMContentLoaded', () => {
-  const y = document.querySelector('#year');
-  if (y) y.textContent = new Date().getFullYear();
+/* assets/app.js */
+
+/* --- Jahr im Footer setzen --- */
+document.querySelectorAll('#year').forEach(el => {
+  el.textContent = new Date().getFullYear();
 });
 
-// Offcanvas Navigation
-(() => {
-  const btn = document.querySelector('.menu-button');
-  const scrim = document.querySelector('.scrim');
-  const links = document.querySelectorAll('.drawer-nav a');
+/* --- Offcanvas-Menü --- */
+const body = document.body;
+const menuBtn = document.querySelector('.menu-button');
+const scrim   = document.querySelector('.scrim');
 
-  const close = () => document.body.classList.remove('menu-open');
-  const open  = () => document.body.classList.add('menu-open');
+menuBtn?.addEventListener('click', () => {
+  body.classList.toggle('menu-open');
+});
+scrim?.addEventListener('click', () => {
+  body.classList.remove('menu-open');
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') body.classList.remove('menu-open');
+});
 
-  if (btn){
-    btn.addEventListener('click', () => {
-      document.body.classList.toggle('menu-open');
-    });
-  }
-  if (scrim){ scrim.addEventListener('click', close); }
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') close();
-  });
-  links.forEach(a => a.addEventListener('click', close));
-})();
+/* --- Minimal-Slider (Galerie) --- */
+(function initCarousel(){
+  const track = document.getElementById('track');
+  if (!track) return; // Nur auf gallery.html
 
-// Galerie-Slider (nur auf gallery.html aktiv)
-(() => {
-  const track = document.querySelector('.carousel-track');
-  if (!track) return;
+  // Slides klonen für nahtlosen Loop
+  let slides = Array.from(track.children);
+  const firstClone = slides[0].cloneNode(true);
+  const lastClone  = slides[slides.length - 1].cloneNode(true);
 
-  const slides = Array.from(track.querySelectorAll('.slide'));
-  const prev = document.getElementById('prev');
-  const next = document.getElementById('next');
-  const dotsWrap = document.getElementById('dots');
+  track.insertBefore(lastClone, slides[0]);
+  track.appendChild(firstClone);
 
-  let i = 0;
+  // Nach dem Einfügen neu erfassen
+  slides = Array.from(track.children);
 
-  const go = (idx) => {
-    i = (idx + slides.length) % slides.length;
-    track.style.transform = `translateX(-${i * 100}%)`;
-    [...dotsWrap.children].forEach((b, n) => b.setAttribute('aria-current', n===i ? 'true' : 'false'));
+  let index = 1; // Start auf dem ersten "echten" Slide
+  const DURATION = 500;   // ms für Slide-Animation
+  const INTERVAL = 4000;  // Auto-Advance
+
+  const applyTransform = (i, animate = true) => {
+    track.style.transition = animate ? `transform ${DURATION}ms ease` : 'none';
+    track.style.transform  = `translate3d(${-i * 100}%, 0, 0)`;
   };
 
-  // Dots bauen
-  slides.forEach((_, n) => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.ariaLabel = `Bild ${n+1}`;
-    b.addEventListener('click', () => go(n));
-    dotsWrap.appendChild(b);
+  // Initial positionieren ohne Animation
+  applyTransform(index, false);
+
+  const next = () => {
+    index++;
+    applyTransform(index, true);
+  };
+  const prev = () => {
+    index--;
+    applyTransform(index, true);
+  };
+
+  // Endlos-Loop (beim Übergang auf Clone sofort "unsichtbar" zurückspringen)
+  track.addEventListener('transitionend', () => {
+    if (index === slides.length - 1) {
+      index = 1;
+      applyTransform(index, false);
+      // Transition sofort wieder an
+      requestAnimationFrame(() => { track.style.transition = `transform ${DURATION}ms ease`; });
+    } else if (index === 0) {
+      index = slides.length - 2;
+      applyTransform(index, false);
+      requestAnimationFrame(() => { track.style.transition = `transform ${DURATION}ms ease`; });
+    }
   });
 
-  prev?.addEventListener('click', () => go(i-1));
-  next?.addEventListener('click', () => go(i+1));
-  track.closest('.carousel-viewport')?.addEventListener('click', () => go(i+1));
+  // Klickzonen (linke/rechte Hälfte)
+  const tapLeft  = document.getElementById('tap-left');
+  const tapRight = document.getElementById('tap-right');
 
-  go(0);
-})();
+  const resetTimer = () => {
+    clearInterval(timer);
+    timer = setInterval(next, INTERVAL);
+  };
 
-// Kontaktformular: öffnet Mail an juliusruderer@gmail.com
-(() => {
-  const form = document.getElementById('contact-form');
-  if (!form) return;
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = form.querySelector('[name="name"]').value.trim();
-    const email = form.querySelector('[name="email"]').value.trim();
-    const msg = form.querySelector('[name="message"]').value.trim();
+  tapLeft?.addEventListener('click', () => { prev(); resetTimer(); });
+  tapRight?.addEventListener('click', () => { next(); resetTimer(); });
 
-    const subject = encodeURIComponent('Kontakt – Radsport Ruderer');
-    const body = encodeURIComponent(
-      `Nachricht:\n${msg}\n\n—\nName: ${name}\nE-Mail: ${email}`
-    );
-    window.location.href = `mailto:juliusruderer@gmail.com?subject=${subject}&body=${body}`;
+  // Tastatur (optional): Pfeiltasten
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  { prev(); resetTimer(); }
+    if (e.key === 'ArrowRight') { next(); resetTimer(); }
+  });
+
+  // Auto-Advance
+  let timer = setInterval(next, INTERVAL);
+
+  // Performance: pausieren, wenn Tab verborgen
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) clearInterval(timer);
+    else resetTimer();
   });
 })();
