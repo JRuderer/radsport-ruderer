@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
 /* ========== Base / Reset ========== */
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; }
@@ -18,11 +20,13 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* Grundschrift */
 body{
-  font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans",sans-serif;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+               Inter, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", sans-serif;
   color: var(--text);
   background: var(--bg);
   line-height: 1.55;
 }
+
 
 /* ========== Header / Topbar ========== */
 .site-header{
@@ -37,7 +41,19 @@ body{
 
 /* Logo links */
 .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
-.brand img.logo{ height: 42px; width:auto; }
+
+/* Standard (alle Unterseiten): größer & schwarz (Originalfarben bleiben) */
+.brand img.logo{
+  height: 64px;   /* vorher 42px */
+  width: auto;
+}
+
+/* Home: noch größer + in weiß umfärben */
+body.home .brand img.logo{
+  height: 84px;   /* ~doppelt so groß wie vorher */
+  filter: brightness(0) invert(1) drop-shadow(0 2px 6px rgba(0,0,0,.35));
+  /* brightness(0) macht schwarz, invert(1) -> weiß; drop-shadow für Kontrast auf hellem Hintergrund */
+}
 
 /* Menü-Button rechts (kleine 3 Punkte) */
 .menu-button{
@@ -49,11 +65,12 @@ body{
 }
 .menu-button:hover{ background:#fff; }
 
-/* Auf Unterseiten: Header weiß mit Linie */
+/* Auf Unterseiten: Header weiß ohne Linie */
 body:not(.home) .site-header{
   background: #fff;
-  border-bottom: var(--border);
+  border-bottom: none;   /* Linie weg */
 }
+
 
 /* Platz für fixed Header schaffen (nur Unterseiten) */
 body:not(.home) main{ padding-top: calc(var(--header-h) + 18px); }
@@ -91,8 +108,25 @@ body.menu-open .drawer{ transform: translateX(0); }
 body.menu-open .scrim{ opacity:1; pointer-events:auto; }
 
 /* ========== Layout Container ========== */
+/* Sticky Footer auf allen Unterseiten (Home hat eigenes, fixes Footer-Label) */
+body:not(.home){
+  min-height: 100svh;        /* sichere Viewport-Höhe, inkl. Mobile-UI */
+  display: flex;
+  flex-direction: column;
+}
+
+main.page{
+  flex: 1 0 auto;            /* nimmt den restlichen Platz ein */
+}
+
+.site-footer{
+  margin-top: auto;          /* schiebt Footer an den unteren Rand */
+  border-top: none;          /* (du wolltest die Linie weg haben) */
+}
+
 .container{ width: min(100%, var(--container)); margin: 0 auto; padding: 0 16px; }
 main.page{ margin: 0 auto 64px; }
+main.page > *:last-child { margin-bottom: 0; }
 
 /* ========== Home (Vollbild-Hintergrund) ========== */
 body.home{
@@ -165,7 +199,7 @@ button[type="submit"]{
 button[type="submit"]:hover{ filter: brightness(1.05); }
 
 /* ========== Footer ========== */
-.site-footer{ border-top: var(--border); padding: 20px 0; color:#64748b; }
+.site-footer{ border-top: none; padding: 20px 0; color:#64748b; }
 .site-footer small a{ color: var(--link); text-decoration:none; }
 .site-footer small a:hover{ text-decoration:underline; }
 
